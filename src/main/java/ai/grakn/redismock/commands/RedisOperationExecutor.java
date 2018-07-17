@@ -155,7 +155,9 @@ public class RedisOperationExecutor {
                 return new RO_hvals(base, params);
             case "psubscribe":
                 LOG.warn("mock redis 环境下psubscribe命令部分支持");
-                return new RO_subscribe(base, owner, params);
+                return new RO_psubscribe(base, owner, params);
+            case "punsubscribe":
+                return new RO_punsubscribe(base, owner, params);
             default:
                 throw new UnsupportedOperationException(String.format("Unsupported operation '%s'", name));
         }

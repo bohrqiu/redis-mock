@@ -82,7 +82,17 @@ public class Response {
 
         return array(slices);
     }
+    public static Slice psubscribedToChannel(List<Slice> channels){
+        Slice operation = SliceParser.consumeParameter("$10\r\npsubscribe\r\n".getBytes());
 
+        List<Slice> slices = new ArrayList<>();
+        for (int i = 0; i < channels.size(); i++) {
+            slices.add(Response.bulkString(operation));
+            slices.add(bulkString(channels.get(i)));
+            slices.add(Response.integer(i+1));
+        }
+        return array(slices);
+    }
     public static Slice unsubscribe(Slice channel, int remainingSubscriptions){
         Slice operation = SliceParser.consumeParameter("$11\r\nunsubscribe\r\n".getBytes());
 
